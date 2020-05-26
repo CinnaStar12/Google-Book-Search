@@ -1,0 +1,10 @@
+.jumbotron {
+    min-height: 300px;
+    padding-top: 100px;
+    width: 100%;
+  }
+  #profile {
+    border-radius: 50%;
+    border: 5px, solid, black;
+  }
+  
