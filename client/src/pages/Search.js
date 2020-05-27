@@ -1,13 +1,17 @@
 import React, { useState } from "react"
 import { Col, Row, Container } from "../components/Grid"
-import Jumbotron from "../components/Jumbotron"
 import Book from "../components/Book"
 
 function Search(){
     const [search, setSearch] = useState()
     const [results, setRestults] = useState([])
 
-    
+    const searchRef = useRef();
+
+    function handleInputChange(event) {
+        setSearch(searchRef.current.value);
+        console.log(search)
+    }
 
 
     return (
@@ -19,7 +23,7 @@ function Search(){
                         <form>
                             <div className="form-group">
                                 <label for="bookSearch">Book</label>
-                                <input type="text" className="form-control" id="bookSearch"></input>
+                                <input type="text" className="form-control" id="bookSearch" ref="searchRef"></input>
                             </div>
                         </form>
                     </div>
