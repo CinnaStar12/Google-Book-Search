@@ -10,36 +10,36 @@ function Search() {
 
 
     useEffect(() => {
-        API.getGoogleBooks("Harry Potter")
+        API.getGoogleBooks(search)
             .then(function (res) {
-                setResults(res.data.items)
-                renderResults()
+                const searchReturn = res.data.items
+                setResults(searchReturn.map(book => {
+                    return (
+                        <li id={book.id}>
+                            <Book title={book.volumeInfo.title}
+                                author={book.volumeInfo.authors[0]}
+                                img={book.volumeInfo.imageLinks.thumbnail}
+                                description={book.volumeInfo.description}
+                                url={book.volumeInfo.infoLink}
+                                id={book.id} />
+                        </li>
+                    )
+                }))
+
             })
             .catch((err) => console.error(err))
     }, [search])
 
-    function renderResults() {
-
-        const renderedResults = (results.map(book => (
-            <li>
-                <Book title={book.volumeInfo.title}
-                    author={book.volumeInfo.authors[0]}
-                    img={book.volumeInfo.imageLinks.thumbnail}
-                    description={book.volumeInfo.description} />
-            </li>
-        )))
-        return renderedResults;
-    }
 
     function handleButtonClick(event) {
         event.preventDefault();
         if (event.target.id === "bookSearchButton") {
             setSearch(searchRef.current.value);
-            API.getGoogleBooks(search)
-                .then(function (res) {
-                    setResults(res.data.items);
-                })
-                .catch((err) => console.error(err))
+            // API.getGoogleBooks(search)
+            //     .then(function (res) {
+            //         setResults(res.data.items);
+            //     })
+            //     .catch((err) => console.error(err))
         }
     }
     return (
@@ -60,7 +60,7 @@ function Search() {
             <Row>
                 <Col size="lg-12">
                     <ul>
-                        {renderResults()}
+                        {results}
                     </ul>
                 </Col>
             </Row>
