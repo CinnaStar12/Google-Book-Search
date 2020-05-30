@@ -11,7 +11,7 @@ function Book(props) {
                     <p className="h5">{props.author}</p>
                     <img src={props.img} className="card-img book-image" alt={props.title} />
                 </div>
-                <div className="col-md-8 mt-3 mb-3">
+                <div className="col-md-8 mt-3 mb-3 description">
                     <p card="card-text">{props.description}</p>
                 </div>
             </div>

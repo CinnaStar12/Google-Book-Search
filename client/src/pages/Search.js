@@ -1,19 +1,47 @@
-import React, { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { Col, Row, Container } from "../components/Grid"
 import Book from "../components/Book"
+import API from "../utils/API"
 
-function Search(){
+function Search() {
     const [search, setSearch] = useState()
-    const [results, setRestults] = useState([])
-
+    const [results, setResults] = useState([])
     const searchRef = useRef();
 
-    function handleInputChange(event) {
-        setSearch(searchRef.current.value);
-        console.log(search)
+
+    useEffect(() => {
+        API.getGoogleBooks("Harry Potter")
+            .then(function (res) {
+                setResults(res.data.items)
+                renderResults()
+            })
+            .catch((err) => console.error(err))
+    }, [search])
+
+    function renderResults() {
+
+        const renderedResults = (results.map(book => (
+            <li>
+                <Book title={book.volumeInfo.title}
+                    author={book.volumeInfo.authors[0]}
+                    img={book.volumeInfo.imageLinks.thumbnail}
+                    description={book.volumeInfo.description} />
+            </li>
+        )))
+        return renderedResults;
     }
 
-
+    function handleButtonClick(event) {
+        event.preventDefault();
+        if (event.target.id === "bookSearchButton") {
+            setSearch(searchRef.current.value);
+            API.getGoogleBooks(search)
+                .then(function (res) {
+                    setResults(res.data.items);
+                })
+                .catch((err) => console.error(err))
+        }
+    }
     return (
         <Container fluid>
             <Row>
@@ -22,8 +50,8 @@ function Search(){
                         <h4>Book Search</h4>
                         <form>
                             <div className="form-group">
-                                <label for="bookSearch">Book</label>
-                                <input type="text" className="form-control" id="bookSearch" ref="searchRef"></input>
+                                <input type="text" className="form-control" id="bookSearch" ref={searchRef} placeholder="Harry Potter...." />
+                                <button type="submit" id="bookSearchButton" className="btn btn-success" onClick={handleButtonClick}>Search</button>
                             </div>
                         </form>
                     </div>
@@ -31,10 +59,9 @@ function Search(){
             </Row>
             <Row>
                 <Col size="lg-12">
-                    <Book title="Harry Potter"
-                    author="J.K. Rowling"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec ullamcorper nisi. Aenean nec lacus felis. Nam ac accumsan leo. Aliquam ut ante ultrices, tempus ante nec, venenatis urna. Duis vel dignissim nibh. Aliquam efficitur metus diam, id volutpat dui auctor nec. In hac habitasse platea dictumst. Pellentesque fringilla consequat congue. Donec finibus ante magna, ut mollis libero vulputate ac. Sed ac tempor odio, non posuere nulla. Phasellus eleifend nunc a orci tempor, a euismod nisl molestie. Nam ac tincidunt quam. Praesent quis risus nisl. Integer sagittis metus sed cursus varius. "
-                    img="https://via.placeholder.com/150x200"/>
+                    <ul>
+                        {renderResults()}
+                    </ul>
                 </Col>
             </Row>
         </Container>
