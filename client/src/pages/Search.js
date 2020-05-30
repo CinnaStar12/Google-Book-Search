@@ -21,7 +21,8 @@ function Search() {
                                 img={book.volumeInfo.imageLinks.thumbnail}
                                 description={book.volumeInfo.description}
                                 url={book.volumeInfo.infoLink}
-                                id={book.id} />
+                                id={book.id}
+                                btnFunction={"Save"} />
                         </li>
                     )
                 }))
@@ -47,6 +48,7 @@ function Search() {
             <Row>
                 <Col size="lg-12">
                     <div>
+                        <a className="btn btn-primary" href="/saved">Saved Books</a>
                         <h4>Book Search</h4>
                         <form>
                             <div className="form-group">

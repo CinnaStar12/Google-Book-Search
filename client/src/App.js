@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
-import logo from './logo.svg';
 import './App.css';
 import Search from "./pages/Search"
 import Jumbotron from './components/Jumbotron';
+import Saved from './pages/Saved'
 
 function App() {
   return (
@@ -12,6 +12,9 @@ function App() {
       <Switch>
         <Route exact path={["/", "/search"]}>
           <Search />
+        </Route>
+        <Route exact path={"/saved"}>
+          <Saved />
         </Route>
       </Switch>
 

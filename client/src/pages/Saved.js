@@ -3,29 +3,47 @@ import { Col, Row, Container } from "../components/Grid"
 import Book from "../components/Book"
 import API from "../utils/API"
 
-function Saved(){
+function Saved() {
     const [books, setBooks] = useState([]);
-    
-    useEffect(() => {
-        API.getBooks()
-        .then(res =>
-            setBooks(res.data)
-            )
-            .catch(err => console.log)(err);
-    }, []) 
+
+
+    //Get Books from Database
+    // useEffect(() => {
+    //     API.getSavedBooks()
+    //         .then(res =>
+    //             setBooks(res.map(book => {
+    //                 return (
+    //                     <li id={book.id}>
+    //                         <Book title={book.volumeInfo.title}
+    //                             author={book.volumeInfo.authors[0]}
+    //                             img={book.volumeInfo.imageLinks.thumbnail}
+    //                             description={book.volumeInfo.description}
+    //                             url={book.volumeInfo.infoLink}
+    //                             id={book.id} />
+    //                     </li>
+    //                 )
+    //             }))
+    //         )
+    // }, [])
 
 
 
 
+    //Render saved books onto page
 
-
-    return(
+    return (
         <Container>
             <Row>
-                <Col size="lg-12">
-
-                </Col>
+            <a className="btn btn-primary m-5" href="/search">Search Books</a>
+                <ul>
+                    <Book title="Saved Book"
+                    author="Book Saver"
+                    description="A saved Book"
+                    btnFunction="Delete"/>
+                </ul>
             </Row>
         </Container>
     )
 }
+
+export default Saved
